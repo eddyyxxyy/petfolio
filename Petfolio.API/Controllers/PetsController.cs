@@ -5,6 +5,7 @@ using Petfolio.Application.UseCases.Pets.Register;
 using Petfolio.Application.UseCases.Pets.Update;
 using Petfolio.Communication.Requests;
 using Petfolio.Communication.Responses;
+using Petfolio.Application.UseCases.Pets.Delete;
 
 namespace Petfolio.API.Controllers;
 
@@ -69,6 +70,19 @@ public class PetsController : ControllerBase
         var useCase = new UpdatePetUseCase();
 
         useCase.Execute(id, request);
+
+        return NoContent();
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorsJson), StatusCodes.Status404NotFound)]
+    public IActionResult Delete([FromRoute] int id)
+    {
+        var useCase = new DeletePetById();
+
+        useCase.Execute(id);
 
         return NoContent();
     }
